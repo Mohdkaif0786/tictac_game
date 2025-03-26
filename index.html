@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic Tac Game</title>
+    <link rel="stylesheet" href="tic_tac_style.css" />
+  </head>
+  <body>
+    <nav id="nav"><h1>MyTicToe.com</h1></nav>
+    <div class="gameContainer">
+      <div class="players">
+        <div class="player-1 active">0's Turn</div>
+        <div class="player-2">X's Turn</div>
+      </div>
+
+      <div class="container">
+        <div class="box bt-0 bl-0"></div>
+        <div class="box bt-0"></div>
+        <div class="box bt-0 br-0"></div>
+        <div class="box bl-0"></div>
+        <div class="box"></div>
+        <div class="box br-0"></div>
+        <div class="box bl-0 bb-0"></div>
+        <div class="box bb-0"></div>
+        <div class="box br-0 bb-0"></div>
+      </div>
+      
+    </div>
+    <div class="result hidden">
+      <h2 class="result_msg">0's win</h2>
+      <button id="reset" onclick="startAgain()">Reset</button>
+    </div>
+
+    <script>
+      const cellElement = document.querySelectorAll(".container .box");
+      console.log(cellElement);
+      const playerO = "O";
+      const playerX = "X";
+      const player1_elm = document.querySelector(".player-1");
+      const player2_elm = document.querySelector(".player-2");
+      const resultElm = document.querySelector(".result");
+      const result_msg_elm = document.querySelector(".result_msg");
+      let Winnnig_Condition = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+      ];
+      console.log(player2_elm);
+      let toggle = true;
+      // console.log(cellElement);
+      cellElement.forEach(function (cell) {
+        cell.onclick = () => {
+          // console.log(cell);
+          let curPlayer = toggle ? playerO : playerX;
+          cell.classList.add("disabled");
+          addInCell(cell, curPlayer);
+          if (winningCheck(curPlayer)) {
+            resultElm.classList.remove("hidden");
+            result_msg_elm.innerHTML = `${curPlayer}'turn winner Game`;
+          }
+          // if (checkDraw()) {
+          //   console.log("draw");
+          // }
+          swaPLayer();
+        };
+      });
+      function winningCheck(curPlayer) {
+        return Winnnig_Condition.some((elm) => {
+          // console.log(elm);
+          return elm.every((index) => {
+            // console.log(index);
+            // console.log(cellElement[index].classList.contains(curPlayer));
+            return cellElement[index].classList.contains(curPlayer);
+          });
+        });
+      }
+      function checkDraw() {
+        cellElement.every((cell) => {
+          console.log(cell);
+        });
+      }
+      checkDraw();
+      function swaPLayer() {
+        toggle = !toggle;
+        if (toggle == true) {
+          player1_elm.classList.add("active");
+          player2_elm.classList.remove("active");
+        } else {
+          player1_elm.classList.remove("active");
+          player2_elm.classList.add("active");
+        }
+      }
+      function addInCell(cell, curPlayer) {
+        cell.innerHTML = curPlayer;
+        cell.classList.add(curPlayer);
+      }
+       function startAgain(){
+
+        window.location.href = "file:///E:/udemy_js/project/tic_tac/index.html";
+       }
+
+    </script>
+  </body>
+</html>
